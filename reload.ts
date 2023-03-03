@@ -16,7 +16,7 @@ type ResponseType = {
 }
 
 export const serveHTML = (param: {
-  fetch: (req: Request) => ResponseType
+  fetch: (req: Request) => ResponseType | Promise<ResponseType>,
   port ?: string, 
   hostname ?:string,
   wsPath ?: string,
@@ -27,8 +27,10 @@ export const serveHTML = (param: {
   const wsPath = param?.wsPath ?? '__live_reload__'
   const wsUrl = `${hostname}:${port}/${wsPath}`;
 
+
   return {
-    fetch: (req, server: Server)=> {
+    fetch: async (req, server: Server)=> {
+      // console.log([ ...Loader.registry.keys() ])
 
       if (req.url === `http://${wsUrl}`) {
         const upgraded = server.upgrade(req);
@@ -40,9 +42,9 @@ export const serveHTML = (param: {
       }
 
 
-      const response = param.fetch(req);
+      const response = await param.fetch(req);
 
-      if (response.type !== 'stringHTML') {
+      if (response.type === 'nonHTML') {
         return response.value;
       }
 
