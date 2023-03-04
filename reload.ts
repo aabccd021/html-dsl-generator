@@ -24,15 +24,19 @@ type ResponseType =
     };
 
 const makeLiveReloadScript = (wsUrl: string) => `
-(function() {
-  const socket = new WebSocket("ws://${wsUrl}");
-    socket.onmessage = function(msg) {
-    if(msg.data === 'reload') {
-      location.reload()
-    }
-  };
-  console.log('Live reload enabled.');
-})();
+<!-- start bun live reload script -->
+<script type="text/javascript">
+  (function() {
+    const socket = new WebSocket("ws://${wsUrl}");
+      socket.onmessage = function(msg) {
+      if(msg.data === 'reload') {
+        location.reload()
+      }
+    };
+    console.log('Live reload enabled.');
+  })();
+</script>
+<!-- end bun live reload script -->
 `;
 
 export const serveHTML = (param: {
@@ -44,10 +48,8 @@ export const serveHTML = (param: {
 }): Serve => {
   const hostname = param.hostname ?? '0.0.0.0';
   const port = param.port ?? '8080';
-  const host = `${hostname}:${port}`;
-  const wsPath = param.wsPath ?? '__bun_live_reload_websocket';
-  const wsUrl = `${host}/${wsPath}`;
-  const liveReloadScriptUrl = param.liveReloadScriptUrl ?? '__bun_live_reload.js';
+  const wsPath = param.wsPath ?? '__bun_live_reload_websocket__';
+  const wsUrl = `${hostname}:${port}/${wsPath}`;
 
   return {
     port,
@@ -62,19 +64,14 @@ export const serveHTML = (param: {
         return;
       }
 
-      if (req.url === `http://${host}/${liveReloadScriptUrl}`) {
-        const liveReloadScript = makeLiveReloadScript(wsUrl);
-        return new Response(liveReloadScript, { headers: { 'Content-Type': 'text/javascript' } });
-      }
-
       const response = await param.fetch(req);
 
       if (response.type === 'nonHTML') {
         return response.value;
       }
 
-      const injectLiveReloadScriptTag = `<script src="${liveReloadScriptUrl}"></script>`;
-      const injectedHtml = response.body + injectLiveReloadScriptTag;
+      const liveReloadScript = makeLiveReloadScript(wsUrl);
+      const injectedHtml = response.body + liveReloadScript;
 
       return new Response(injectedHtml, response.options);
     },
