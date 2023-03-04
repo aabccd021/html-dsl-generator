@@ -1,7 +1,7 @@
 import { html } from './aab.js';
-import { serveHTML2 } from './reload.js';
+import { withLiveReload } from './reload.js';
 
 // eslint-disable-next-line import/no-default-export
-export default serveHTML2({
+export default withLiveReload({
   fetch: () => new Response(html, { headers: { 'Content-Type': 'text/html' } }),
 });
