@@ -2,15 +2,15 @@
   "name": "html-dsl-generator",
   "module": "index.ts",
   "type": "module",
-  "dependencies": {
-    "dayjs": "git+https://github.com/iamkun/dayjs.git",
-    "lodash": "git+ssh://github.com/lodash/lodash.git#4.17.21",
-    "moment": "git@github.com:moment/moment.git",
-    "zod": "github:colinhacks/zod"
+  "eslintConfig": {
+    "extends": [
+      "chimeraant"
+    ]
   },
   "devDependencies": {
     "bun-types": "^0.2.0",
-    "eslint_d": "^12.2.1",
+    "eslint": "^8.30.0",
+    "eslint-config-chimeraant": "^1.2.9",
     "typescript": "^4.9.5"
   }
 }

@@ -1,46 +1,71 @@
-import {Serve, Server, ServerWebSocket} from 'bun';
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable functional/immutable-data */
+/* eslint-disable functional/no-return-void */
+/* eslint-disable functional/no-conditional-statement */
+/* eslint-disable no-var */
+/* eslint-disable functional/no-expression-statement */
+import type { Serve, Server, ServerWebSocket } from 'bun';
 
 declare global {
-  var ws: ServerWebSocket;
+  var ws: ServerWebSocket | undefined;
 }
 
 globalThis.ws?.send('reload');
 
-type ResponseType = {
-  readonly type: 'stringHTML';
-  readonly body: string;
-  readonly options?: ResponseInit
-} | {
-  readonly type: 'nonHTML';
-  readonly value: Response
-}
+type ResponseType =
+  | {
+      readonly type: 'nonHTML';
+      readonly value: Response;
+    }
+  | {
+      readonly type: 'stringHTML';
+      readonly body: string;
+      readonly options?: ResponseInit;
+    };
+
+const makeLiveReloadScript = (wsUrl: string) => `
+(function() {
+  const socket = new WebSocket("ws://${wsUrl}");
+    socket.onmessage = function(msg) {
+    if(msg.data === 'reload') {
+      location.reload()
+    }
+  };
+  console.log('Live reload enabled.');
+})();
+`;
 
 export const serveHTML = (param: {
-  fetch: (req: Request) => ResponseType | Promise<ResponseType>,
-  port ?: string, 
-  hostname ?:string,
-  wsPath ?: string,
-}): Serve => { 
-
-  const hostname = param?.hostname ?? '0.0.0.0';
-  const port = param?.port ?? '8080';
-  const wsPath = param?.wsPath ?? '__live_reload__'
-  const wsUrl = `${hostname}:${port}/${wsPath}`;
-
+  readonly fetch: (req: Request) => Promise<ResponseType> | ResponseType;
+  readonly port?: string;
+  readonly hostname?: string;
+  readonly wsPath?: string;
+  readonly liveReloadScriptUrl?: string;
+}): Serve => {
+  const hostname = param.hostname ?? '0.0.0.0';
+  const port = param.port ?? '8080';
+  const host = `${hostname}:${port}`;
+  const wsPath = param.wsPath ?? '__bun_live_reload_websocket';
+  const wsUrl = `${host}/${wsPath}`;
+  const liveReloadScriptUrl = param.liveReloadScriptUrl ?? '__bun_live_reload.js';
 
   return {
-    fetch: async (req, server: Server)=> {
-      // console.log([ ...Loader.registry.keys() ])
-
+    port,
+    hostname,
+    fetch: async (req, server: Server) => {
       if (req.url === `http://${wsUrl}`) {
         const upgraded = server.upgrade(req);
 
         if (!upgraded) {
-          return new Response("Upgrade failed", { status: 400 });
+          return new Response('Upgrade failed', { status: 400 });
         }
         return;
       }
 
+      if (req.url === `http://${host}/${liveReloadScriptUrl}`) {
+        const liveReloadScript = makeLiveReloadScript(wsUrl);
+        return new Response(liveReloadScript, { headers: { 'Content-Type': 'text/javascript' } });
+      }
 
       const response = await param.fetch(req);
 
@@ -48,42 +73,16 @@ export const serveHTML = (param: {
         return response.value;
       }
 
-      const injectWs = `
-      <script type="text/javascript">
-      (function() {
-        const socket = new WebSocket("ws://${wsUrl}");
-          socket.onmessage = function(msg) {
-          if(msg.data === 'reload') {
-            location.reload()
-          }
-        };
-        console.log('Live reload enabled.');
-      })();
-      </script>
-      `
+      const injectLiveReloadScriptTag = `<script src="${liveReloadScriptUrl}"></script>`;
+      const injectedHtml = response.body + injectLiveReloadScriptTag;
 
-      const injectedHtml = response.body + injectWs;
-
-      const options: ResponseInit = { 
-        ...response.options, 
-        headers: {
-          ...response.options?.headers,
-          'Content-Type': 'text/html'
-        }
-      }
-
-      return new Response(injectedHtml, options);
-
+      return new Response(injectedHtml, response.options);
     },
     websocket: {
       message: () => {},
       open: (ws) => {
         globalThis.ws = ws;
-      }
+      },
     },
-    port: port ?? "8080",
-    hostname: hostname ?? "0.0.0.0"
-  } 
+  };
 };
-
-
