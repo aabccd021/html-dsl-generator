@@ -8,6 +8,7 @@
     ]
   },
   "devDependencies": {
+    "bun-html-live-reload": "github:aabccd021/bun-html-live-reload",
     "bun-types": "^0.2.0",
     "eslint": "^8.30.0",
     "eslint-config-chimeraant": "^1.2.9",
