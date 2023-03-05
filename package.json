@@ -1,7 +1,5 @@
 {
   "name": "html-dsl-generator",
-  "module": "index.ts",
-  "type": "module",
   "eslintConfig": {
     "extends": [
       "chimeraant"
@@ -12,6 +10,7 @@
     "bun-types": "^0.2.0",
     "eslint": "^8.30.0",
     "eslint-config-chimeraant": "^1.2.9",
+    "is-positive": "kevva/is-positive#master",
     "typescript": "^4.9.5"
   }
 }

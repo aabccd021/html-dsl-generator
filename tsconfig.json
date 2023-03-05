@@ -3,7 +3,7 @@
     "lib": ["esnext"],
     "module": "esnext",
     "target": "esnext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "esnext",
     "allowJs": true,
     "esModuleInterop": true,
     "strict": true,
