@@ -1,18 +1,6 @@
 import type * as React from 'react';
 
-type OmitReactFields<T> = T extends React.HTMLAttributes<infer K>
-  ? Omit<
-      T,
-      | keyof React.DOMAttributes<K>
-      | 'defaultChecked'
-      | 'defaultValue'
-      | 'onCancel'
-      | 'onClose'
-      | 'onToggle'
-      | 'suppressContentEditableWarning'
-      | 'suppressHydrationWarning'
-    >
-  : never;
+import type { OmitReactFields } from '../src/utilTypes.js';
 
 export type a = OmitReactFields<React.AnchorHTMLAttributes<unknown>>;
 export type abbr = OmitReactFields<React.HTMLAttributes<unknown>>;
