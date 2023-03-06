@@ -10,9 +10,10 @@ import type { Task } from 'fp-ts/lib/Task.js';
 
 import { reactAttributes } from './reactAttributes.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-const generatedFilesDir = join(resolve(__dirname, '..'), 'generated');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const parentDir = resolve(__dirname, '..');
+const generatedFilesDir = join(parentDir, 'generated');
 
 export type Env = {
   readonly writeFile: (fileName: string, fileContent: string) => Task<unknown>;
