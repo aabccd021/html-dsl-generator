@@ -1,3 +1,5 @@
+// TODO: auto generate this
+
 export const customAttributeTagNames = [
   'a',
   'audio',
@@ -49,3 +51,8 @@ export const customAttributeTagNames = [
   'track',
   'video',
 ];
+
+export const customPrefixMap: Record<string, string> = {
+  a: 'anchor',
+  q: 'quote',
+};

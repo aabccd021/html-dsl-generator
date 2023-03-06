@@ -1,16 +1,11 @@
 /* eslint-disable functional/no-conditional-statement */
 import { htmlTagNames } from 'html-tag-names';
 
-import { customAttributeTagNames } from './react/data.js';
+import { customAttributeTagNames, customPrefixMap } from './react/data.js';
 
 const usableNameMap: Record<string, string> = {
   var: 'var_',
   object: 'object_',
-};
-
-const customPrefixMap: Record<string, string> = {
-  a: 'anchor',
-  q: 'quote',
 };
 
 const makePrefix = (tagName: string) => {
