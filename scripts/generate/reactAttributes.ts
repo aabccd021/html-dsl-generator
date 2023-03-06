@@ -1,7 +1,62 @@
 /* eslint-disable functional/no-conditional-statement */
 import { htmlTagNames } from 'html-tag-names';
 
-import { customAttributeTagNames, customPrefixMap } from './hardcoded.js';
+export const customAttributeTagNames = [
+  'a',
+  'audio',
+  'area',
+  'base',
+  'blockquote',
+  'button',
+  'canvas',
+  'col',
+  'colgroup',
+  'data',
+  'details',
+  'del',
+  'dialog',
+  'embed',
+  'fieldset',
+  'form',
+  'html',
+  'iframe',
+  'img',
+  'ins',
+  'input',
+  'keygen',
+  'label',
+  'li',
+  'link',
+  'map',
+  'menu',
+  'meta',
+  'meter',
+  'q',
+  'object',
+  'ol',
+  'optgroup',
+  'option',
+  'output',
+  'param',
+  'progress',
+  'slot',
+  'script',
+  'select',
+  'source',
+  'style',
+  'table',
+  'textarea',
+  'td',
+  'th',
+  'time',
+  'track',
+  'video',
+];
+
+export const customPrefixMap: Record<string, string> = {
+  a: 'anchor',
+  q: 'quote',
+};
 
 const usableNameMap: Record<string, string> = {
   var: 'var_',
@@ -27,5 +82,5 @@ const tagTypesString = htmlTagNames.map(makeTagTypeString).join('\n');
 
 export const reactAttributes =
   `import type * as React from 'react';\n\n` +
-  `import type { OmitReactFields } from './hardcoded.js';\n\n` +
+  `import type { OmitReactFields } from './internalUtilTypes.js';\n\n` +
   `${tagTypesString}\n`;
