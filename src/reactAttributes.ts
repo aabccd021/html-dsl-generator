@@ -1,7 +1,7 @@
 /* eslint-disable functional/no-conditional-statement */
 import { htmlTagNames } from 'html-tag-names';
 
-import { customAttributeTagNames, customPrefixMap } from './react/data.js';
+import { customAttributeTagNames, customPrefixMap } from './reactHardcoded.js';
 
 const usableNameMap: Record<string, string> = {
   var: 'var_',
@@ -27,4 +27,5 @@ const tagTypesString = htmlTagNames.map(makeTagTypeString).join('\n');
 
 export const reactAttributes =
   `import type * as React from 'react';\n\n` +
-  `import type { OmitReactFields } from '../src/utilTypes.js';\n\n${tagTypesString}\n`;
+  `import type { OmitReactFields } from '../src/reactHardcoded.js';\n\n` +
+  `${tagTypesString}\n`;
