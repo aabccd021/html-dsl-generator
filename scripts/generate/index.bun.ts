@@ -1,6 +1,4 @@
 #!/usr/bin/env bun
-/* eslint-disable import/no-nodejs-modules */
-/* eslint-disable functional/no-expression-statement */
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 

@@ -11,7 +11,7 @@
     "src"
   ],
   "scripts": {
-    "generate": "./scripts/generate/index.ts",
+    "generate": "./scripts/generate/index.bun.ts",
     "lint": "eslint . --ext ts",
     "typecheck:scripts": "tsc -p scripts/tsconfig.json --noEmit",
     "typecheck:src": "tsc -p src/tsconfig.json --noEmit"
@@ -20,7 +20,7 @@
     "@types/react": "^18.0.28",
     "bun-types": "^0.5.7",
     "eslint": "^8.30.0",
-    "eslint-config-chimeraant": "^1.2.9",
+    "eslint-config-chimeraant": "github:chimeraant/eslint-config-chimeraant#main",
     "typescript": "^4.9.5"
   },
   "dependencies": {

@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-conditional-statement */
 import { htmlTagNames } from 'html-tag-names';
 
 export const customAttributeTagNames = [
