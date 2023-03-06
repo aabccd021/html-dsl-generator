@@ -1,7 +1,7 @@
 {
   "name": "html-dsl-generator",
   "type": "module",
-  "module": "index.ts",
+  "module": "src/index.ts",
   "eslintConfig": {
     "extends": [
       "chimeraant"
