@@ -32,4 +32,4 @@ const tagTypesString = htmlTagNames.map(makeTagTypeString).join('\n');
 
 export const reactAttributes =
   `import type * as React from 'react';\n\n` +
-  `import type { OmitReactFields } from '../src/utilTypes.js';\n\n${tagTypesString}`;
+  `import type { OmitReactFields } from '../src/utilTypes.js';\n\n${tagTypesString}\n`;
