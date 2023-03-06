@@ -1,4 +1,5 @@
 // TODO: auto generate this
+import type * as React from 'react';
 
 export const customAttributeTagNames = [
   'a',

@@ -7,20 +7,17 @@ import type { Task } from 'fp-ts/lib/Task.js';
 
 import { reactAttributes } from './reactAttributes/generate.js';
 
-const removeLastPath = (url: string) => url.substring(0, url.lastIndexOf('/'));
-
-const dirName = removeLastPath(import.meta.url);
-
 export type Env = {
-  readonly writeFile: (fileUrl: URL, fileContent: string) => Task<unknown>;
+  readonly writeFile: (fileUrl: string, fileContent: string) => Task<unknown>;
+  readonly absoluteScriptPath: string;
 };
 
-export const generateTypes = (env: Env) =>
+export const generate = (env: Env) =>
   pipe(
     { reactAttributes },
     readonlyRecord.traverseWithIndex(task.ApplicativePar)((typeName, fileContent) => {
-      const filePath = `${dirName}/${typeName}/generated.ts`;
-      const fileUrl = new URL(filePath);
-      return env.writeFile(fileUrl, fileContent);
+      const filePath = `${env.absoluteScriptPath}/../../es/${typeName}/generated.ts`;
+      console.log(filePath);
+      return env.writeFile(filePath, fileContent);
     })
   );

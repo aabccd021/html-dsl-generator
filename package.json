@@ -8,7 +8,11 @@
     ]
   },
   "scripts": {
-    "generate": "./scripts/generate.bun.ts"
+    "generate": "./scripts/generate.ts",
+    "lint": "eslint . --ext ts",
+    "typecheck": "bun typecheck:bun && bun typecheck:es",
+    "typecheck:bun": "tsc -p src/bun/tsconfig.json --noEmit",
+    "typecheck:es": "tsc -p src/es/tsconfig.json --noEmit"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
