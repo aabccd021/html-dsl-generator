@@ -8,10 +8,10 @@
     ]
   },
   "scripts": {
-    "generate": "./scripts/generate.ts",
+    "generate": "bun ./scripts/bun/generate.ts",
     "lint": "eslint . --ext ts",
     "typecheck": "bun typecheck:bun && bun typecheck:es",
-    "typecheck:bun": "tsc -p src/bun/tsconfig.json --noEmit",
+    "typecheck:bun": "tsc -p scripts/bun/tsconfig.json --noEmit",
     "typecheck:es": "tsc -p src/es/tsconfig.json --noEmit"
   },
   "devDependencies": {

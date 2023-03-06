@@ -16,8 +16,7 @@ export const generate = (env: Env) =>
   pipe(
     { reactAttributes },
     readonlyRecord.traverseWithIndex(task.ApplicativePar)((typeName, fileContent) => {
-      const filePath = `${env.absoluteScriptPath}/../es/${typeName}/generated.ts`;
-      console.log(filePath);
+      const filePath = `${env.absoluteScriptPath}/../../src/es/${typeName}/generated.ts`;
       return env.writeFile(filePath, fileContent);
     })
   );

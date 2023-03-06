@@ -2,7 +2,7 @@
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as es from '../es/generate.js';
+import * as es from '../../src/es/generate.js';
 
 const env: es.Env = {
   writeFile: (fileUrl, fileContent) => () => {
@@ -12,4 +12,7 @@ const env: es.Env = {
   absoluteScriptPath: resolve(fileURLToPath(import.meta.url), '..'),
 };
 
-export const generate = es.generate(env);
+const generate = es.generate(env);
+
+// eslint-disable-next-line functional/no-expression-statement
+void generate();
