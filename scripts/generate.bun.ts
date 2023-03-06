@@ -1,11 +1,11 @@
 #!/usr/bin/env bun
 /// <reference types="bun-types" />
 
-import type { Env } from '../src/generateTypes.js';
-import { generateTypes } from '../src/generateTypes.js';
+import type { Env } from '../src/generate.js';
+import { generateTypes } from '../src/generate.js';
 
 const env: Env = {
-  writeFile: (fileName, fileContent) => () => Bun.write(fileName, fileContent),
+  writeFile: (fileUrl, fileContent) => () => Bun.write(fileUrl, fileContent),
 };
 
 const run = generateTypes(env);

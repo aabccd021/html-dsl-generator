@@ -57,16 +57,14 @@ export const customPrefixMap: Record<string, string> = {
   q: 'quote',
 };
 
-export type OmitReactFields<T> = T extends React.HTMLAttributes<infer K>
-  ? Omit<
-      T,
-      | keyof React.DOMAttributes<K>
-      | 'defaultChecked'
-      | 'defaultValue'
-      | 'onCancel'
-      | 'onClose'
-      | 'onToggle'
-      | 'suppressContentEditableWarning'
-      | 'suppressHydrationWarning'
-    >
-  : never;
+export type OmitReactFields<T> = Omit<
+  T,
+  | keyof React.DOMAttributes<unknown>
+  | 'defaultChecked'
+  | 'defaultValue'
+  | 'onCancel'
+  | 'onClose'
+  | 'onToggle'
+  | 'suppressContentEditableWarning'
+  | 'suppressHydrationWarning'
+>;

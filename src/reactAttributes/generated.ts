@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import type { OmitReactFields } from '../src/reactHardcoded.js';
+import type { OmitReactFields } from './hardcoded.js';
 
 export type a = OmitReactFields<React.AnchorHTMLAttributes<unknown>>;
 export type abbr = OmitReactFields<React.HTMLAttributes<unknown>>;
